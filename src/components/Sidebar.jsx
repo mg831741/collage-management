@@ -83,12 +83,16 @@ export const Sidebar = ({ currentPage, setCurrentPage }) => {
 
   return (
     <aside className="sidebar no-print">
-      <div className="sidebar-header">
-        <div className="brand-logo">EV</div>
+      <div className="sidebar-header" style={{ gap: '0.85rem' }}>
+        <img
+          src="/csit-logo.png"
+          alt="CSIT Deori Logo"
+          style={{ width: '46px', height: '46px', objectFit: 'contain', filter: 'drop-shadow(0 0 6px rgba(99, 102, 241, 0.4))' }}
+        />
         <div>
-          <h1 className="brand-title">EduVision</h1>
-          <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-            {collegeInfo.shortName} CMS v3.4
+          <h1 className="brand-title" style={{ fontSize: '1.05rem', lineHeight: 1.2 }}>CSIT Deori</h1>
+          <p style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+            Polytechnic CMS
           </p>
         </div>
       </div>
@@ -141,14 +145,14 @@ export const Sidebar = ({ currentPage, setCurrentPage }) => {
             borderRadius: 'var(--radius-sm)',
             padding: '0.75rem',
             textAlign: 'center',
-            fontSize: '0.75rem',
+            fontSize: '0.73rem',
             color: 'var(--text-muted)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', marginBottom: '0.2rem', color: 'var(--accent-primary)', fontWeight: 600 }}>
-            <Sparkles size={14} /> AI Powered CMS
+            <Sparkles size={14} /> CSIT Deori Portal
           </div>
-          NAAC A++ Grade Portal
+          AICTE & DTE Approved
         </div>
       </div>
     </aside>

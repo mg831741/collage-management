@@ -19,7 +19,7 @@ export const FeeManagement = () => {
 
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
   const [selectedStudentId, setSelectedStudentId] = useState(students[0]?.id || '');
-  const [payAmount, setPayAmount] = useState('75000');
+  const [payAmount, setPayAmount] = useState('65000');
   const [payMethod, setPayMethod] = useState('UPI / GPay');
 
   // Printable Receipt Modal State
@@ -38,16 +38,13 @@ export const FeeManagement = () => {
 
     const receipt = recordFeePayment(selectedStudentId, amountNum, payMethod);
 
-    // Trigger celebration confetti
     try {
       confetti({
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 }
       });
-    } catch (err) {
-      // fallback if canvas-confetti is not loaded
-    }
+    } catch (err) {}
 
     setIsPayModalOpen(false);
     if (receipt) {
@@ -270,18 +267,19 @@ export const FeeManagement = () => {
         </form>
       </Modal>
 
-      {/* Official Printable Fee Receipt Modal / Sheet */}
+      {/* Official Printable Fee Receipt Modal */}
       {activeReceipt && (
         <Modal isOpen={!!activeReceipt} onClose={() => setActiveReceipt(null)} title="Official GST Fee Receipt" maxWidth="680px">
           <div className="printable-document" style={{ padding: '1.5rem', background: '#fff', color: '#000', borderRadius: 'var(--radius-md)' }}>
             {/* Header */}
             <div style={{ textAlign: 'center', borderBottom: '2px solid #000', paddingBottom: '1rem', marginBottom: '1.25rem' }}>
-              <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#000', textTransform: 'uppercase' }}>
+              <img src="/csit-logo.png" alt="CSIT Deori" style={{ width: '65px', height: '65px', objectFit: 'contain', marginBottom: '0.4rem' }} />
+              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#000', textTransform: 'uppercase' }}>
                 {collegeInfo.name}
               </h2>
-              <div style={{ fontSize: '0.8rem', color: '#444' }}>{collegeInfo.address}</div>
-              <div style={{ fontSize: '0.8rem', color: '#444' }}>{collegeInfo.grade} • GSTIN: 27AAAAA0000A1Z5</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 800, marginTop: '0.5rem', textDecoration: 'underline' }}>
+              <div style={{ fontSize: '0.78rem', color: '#444' }}>{collegeInfo.address}</div>
+              <div style={{ fontSize: '0.78rem', color: '#444' }}>{collegeInfo.grade} • Phone: {collegeInfo.phone}</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, marginTop: '0.5rem', textDecoration: 'underline' }}>
                 OFFICIAL TUITION FEE RECEIPT
               </div>
             </div>
@@ -335,8 +333,8 @@ export const FeeManagement = () => {
                 <div style={{ borderTop: '1px solid #000', width: '140px' }}>Student Signature</div>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ height: '30px', fontWeight: 'bold', color: '#16a34a' }}>[ VERIFIED STAMP ]</div>
-                <div style={{ borderTop: '1px solid #000', width: '160px' }}>Accounts Officer / Registrar</div>
+                <div style={{ height: '30px', fontWeight: 'bold', color: '#16a34a' }}>[ CSIT VERIFIED STAMP ]</div>
+                <div style={{ borderTop: '1px solid #000', width: '160px' }}>Accounts Officer / Principal</div>
               </div>
             </div>
           </div>

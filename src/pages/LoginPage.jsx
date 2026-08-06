@@ -18,18 +18,18 @@ export const LoginPage = ({ onLoginSuccess }) => {
   const { login, collegeInfo } = useApp();
 
   const [selectedRole, setSelectedRole] = useState('Admin');
-  const [email, setEmail] = useState('admin@eduvision.edu.in');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('admin@csitdeori.edu.in');
+  const [password, setPassword] = useState('csit2026#secured');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const rolesList = [
-    { id: 'Admin', label: 'Administrator', icon: ShieldCheck, email: 'admin@eduvision.edu.in' },
-    { id: 'Faculty', label: 'Faculty Staff', icon: GraduationCap, email: 'faculty@eduvision.edu.in' },
-    { id: 'Student', label: 'Student Portal', icon: GraduationCap, email: 'rohan.kapoor@student.eduvision.edu.in' },
-    { id: 'Parent', label: 'Parent / Guardian', icon: ShieldCheck, email: 'parent@eduvision.edu.in' },
-    { id: 'Accountant', label: 'Finance Office', icon: KeyRound, email: 'accounts@eduvision.edu.in' }
+    { id: 'Admin', label: 'Administrator', icon: ShieldCheck, email: 'admin@csitdeori.edu.in' },
+    { id: 'Faculty', label: 'Faculty Staff', icon: GraduationCap, email: 'faculty@csitdeori.edu.in' },
+    { id: 'Student', label: 'Student Portal', icon: GraduationCap, email: 'rohan.kapoor@student.csitdeori.edu.in' },
+    { id: 'Parent', label: 'Parent / Guardian', icon: ShieldCheck, email: 'parent@csitdeori.edu.in' },
+    { id: 'Accountant', label: 'Finance Office', icon: KeyRound, email: 'accounts@csitdeori.edu.in' }
   ];
 
   const handleRoleSelect = (roleId) => {
@@ -51,8 +51,8 @@ export const LoginPage = ({ onLoginSuccess }) => {
   };
 
   const handleAutofill = () => {
-    setEmail('admin@eduvision.edu.in');
-    setPassword('admin2026#secured');
+    setEmail('admin@csitdeori.edu.in');
+    setPassword('csit2026#secured');
     setSelectedRole('Admin');
   };
 
@@ -76,7 +76,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
       <div
         className="glass-card"
         style={{
-          maxWidth: '480px',
+          maxWidth: '520px',
           width: '100%',
           padding: '2.5rem 2.25rem',
           borderRadius: 'var(--radius-lg)',
@@ -89,29 +89,19 @@ export const LoginPage = ({ onLoginSuccess }) => {
       >
         {/* College Header Branding */}
         <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
-          <div
-            style={{
-              width: '56px',
-              height: '56px',
-              borderRadius: 'var(--radius-md)',
-              background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-purple))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontWeight: 800,
-              fontSize: '1.6rem',
-              margin: '0 auto 0.85rem auto',
-              boxShadow: 'var(--shadow-glow)'
-            }}
-          >
-            EV
-          </div>
-          <h1 style={{ fontSize: '1.65rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '0.2rem' }}>
-            {collegeInfo.shortName} Portal Access
+          <img
+            src="/csit-logo.png"
+            alt="CSIT Deori Official Logo"
+            style={{ width: '90px', height: '90px', objectFit: 'contain', margin: '0 auto 0.85rem auto', filter: 'drop-shadow(0 0 12px rgba(99, 102, 241, 0.5))' }}
+          />
+          <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '0.2rem' }}>
+            Chhatrapati Shivaji Institute of Technology
           </h1>
-          <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)' }}>
-            {collegeInfo.name} • {collegeInfo.grade}
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--accent-primary)', marginBottom: '0.2rem' }}>
+            CSIT Deori, Distt. Gondia (Polytechnic)
+          </div>
+          <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+            || ज्ञानादिन जगत् सर्वम् || • AICTE & DTE Approved
           </p>
         </div>
 
@@ -157,7 +147,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="user@eduvision.edu.in"
+                placeholder="user@csitdeori.edu.in"
               />
             </div>
           </div>
@@ -224,7 +214,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
 
         {/* Footer Security Badge */}
         <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}>
-          <ShieldCheck size={15} color="#34d399" /> 256-Bit SSL Encrypted Enterprise Authentication
+          <ShieldCheck size={15} color="#34d399" /> 256-Bit SSL Encrypted CSIT Portal
         </div>
       </div>
     </div>
