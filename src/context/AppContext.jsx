@@ -21,54 +21,54 @@ export const AppProvider = ({ children }) => {
   const [activeRole, setActiveRole] = useState(() => localStorage.getItem('ev_role') || 'Admin');
   const [currentUser, setCurrentUser] = useState(() => {
     const saved = localStorage.getItem('ev_user');
-    return saved ? JSON.parse(saved) : { name: 'System Admin', email: 'admin@eduvision.edu.in', role: 'Admin' };
+    return saved ? JSON.parse(saved) : { name: 'System Admin', email: 'admin@csitdeori.edu.in', role: 'Admin' };
   });
-  const [activeStudentId, setActiveStudentId] = useState('std-101');
+  const [activeStudentId, setActiveStudentId] = useState('');
 
-  // Core Data States
+  // Core Data States (Empty by default for clean production)
   const [students, setStudents] = useState(() => {
     const saved = localStorage.getItem('ev_students');
-    return saved !== null ? JSON.parse(saved) : INITIAL_STUDENTS;
+    return saved && JSON.parse(saved).length > 0 ? JSON.parse(saved) : [];
   });
 
   const [faculty, setFaculty] = useState(() => {
     const saved = localStorage.getItem('ev_faculty');
-    return saved !== null ? JSON.parse(saved) : INITIAL_FACULTY;
+    return saved && JSON.parse(saved).length > 0 ? JSON.parse(saved) : [];
   });
 
   const [departments, setDepartments] = useState(() => {
     const saved = localStorage.getItem('ev_departments');
-    return saved !== null ? JSON.parse(saved) : INITIAL_DEPARTMENTS;
+    return saved ? JSON.parse(saved) : INITIAL_DEPARTMENTS;
   });
 
   const [courses, setCourses] = useState(() => {
     const saved = localStorage.getItem('ev_courses');
-    return saved !== null ? JSON.parse(saved) : INITIAL_COURSES;
+    return saved ? JSON.parse(saved) : [];
   });
 
   const [notices, setNotices] = useState(() => {
     const saved = localStorage.getItem('ev_notices');
-    return saved !== null ? JSON.parse(saved) : INITIAL_NOTICES;
+    return saved && JSON.parse(saved).length > 0 ? JSON.parse(saved) : [];
   });
 
   const [transactions, setTransactions] = useState(() => {
     const saved = localStorage.getItem('ev_transactions');
-    return saved !== null ? JSON.parse(saved) : INITIAL_FEE_TRANSACTIONS;
+    return saved && JSON.parse(saved).length > 0 ? JSON.parse(saved) : [];
   });
 
   const [books, setBooks] = useState(() => {
     const saved = localStorage.getItem('ev_books');
-    return saved !== null ? JSON.parse(saved) : INITIAL_BOOKS;
+    return saved && JSON.parse(saved).length > 0 ? JSON.parse(saved) : [];
   });
 
   const [exams, setExams] = useState(() => {
     const saved = localStorage.getItem('ev_exams');
-    return saved !== null ? JSON.parse(saved) : INITIAL_EXAMS;
+    return saved && JSON.parse(saved).length > 0 ? JSON.parse(saved) : [];
   });
 
   const [auditLogs, setAuditLogs] = useState(() => {
     const saved = localStorage.getItem('ev_audit_logs');
-    return saved !== null ? JSON.parse(saved) : AUDIT_LOGS;
+    return saved ? JSON.parse(saved) : [];
   });
 
   // Command Palette & Search State
@@ -76,6 +76,28 @@ export const AppProvider = ({ children }) => {
 
   // Toast Notifications State
   const [toasts, setToasts] = useState([]);
+
+  // Clear LocalStorage cached demo data on initial load if present
+  useEffect(() => {
+    const isCleaned = localStorage.getItem('ev_clean_v2');
+    if (!isCleaned) {
+      localStorage.setItem('ev_students', JSON.stringify([]));
+      localStorage.setItem('ev_faculty', JSON.stringify([]));
+      localStorage.setItem('ev_notices', JSON.stringify([]));
+      localStorage.setItem('ev_transactions', JSON.stringify([]));
+      localStorage.setItem('ev_books', JSON.stringify([]));
+      localStorage.setItem('ev_exams', JSON.stringify([]));
+      localStorage.setItem('ev_audit_logs', JSON.stringify([]));
+      localStorage.setItem('ev_clean_v2', 'true');
+      setStudents([]);
+      setFaculty([]);
+      setNotices([]);
+      setTransactions([]);
+      setBooks([]);
+      setExams([]);
+      setAuditLogs([]);
+    }
+  }, []);
 
   // Persist Effects
   useEffect(() => {
@@ -158,19 +180,19 @@ export const AppProvider = ({ children }) => {
   const login = (role, email, name) => {
     setActiveRole(role);
     const userObj = {
-      name: name || (role === 'Student' ? 'Rohan V. Kapoor' : role === 'Faculty' ? 'Dr. Arvind Swamy' : 'System Admin'),
-      email: email || `${role.toLowerCase()}@eduvision.edu.in`,
+      name: name || (role === 'Student' ? 'Student Portal' : role === 'Faculty' ? 'Faculty Member' : 'System Admin'),
+      email: email || `${role.toLowerCase()}@csitdeori.edu.in`,
       role
     };
     setCurrentUser(userObj);
     setIsAuthenticated(true);
-    addToast(`Welcome back, ${userObj.name}! Authenticated as ${role}`, 'success');
+    addToast(`Welcome back to CSIT Deori Portal`, 'success');
     addAuditLog(`User logged in as ${role}`);
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    addToast('Logged out of session', 'info');
+    addToast('Logged out of CSIT session', 'info');
     addAuditLog('User logged out');
   };
 
@@ -193,31 +215,7 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('ev_exams', JSON.stringify([]));
     localStorage.setItem('ev_audit_logs', JSON.stringify([]));
 
-    addToast('All demo records successfully removed!', 'warning');
-  };
-
-  // Restore Sample Demo Data Handler
-  const restoreDemoData = () => {
-    setStudents(INITIAL_STUDENTS);
-    setFaculty(INITIAL_FACULTY);
-    setDepartments(INITIAL_DEPARTMENTS);
-    setCourses(INITIAL_COURSES);
-    setNotices(INITIAL_NOTICES);
-    setTransactions(INITIAL_FEE_TRANSACTIONS);
-    setBooks(INITIAL_BOOKS);
-    setExams(INITIAL_EXAMS);
-    setAuditLogs(AUDIT_LOGS);
-    setActiveStudentId('std-101');
-
-    localStorage.setItem('ev_students', JSON.stringify(INITIAL_STUDENTS));
-    localStorage.setItem('ev_faculty', JSON.stringify(INITIAL_FACULTY));
-    localStorage.setItem('ev_notices', JSON.stringify(INITIAL_NOTICES));
-    localStorage.setItem('ev_transactions', JSON.stringify(INITIAL_FEE_TRANSACTIONS));
-    localStorage.setItem('ev_books', JSON.stringify(INITIAL_BOOKS));
-    localStorage.setItem('ev_exams', JSON.stringify(INITIAL_EXAMS));
-    localStorage.setItem('ev_audit_logs', JSON.stringify(AUDIT_LOGS));
-
-    addToast('Sample demo dataset restored!', 'info');
+    addToast('All database records cleared for clean CSIT production setup!', 'warning');
   };
 
   // Student CRUD
@@ -229,13 +227,13 @@ export const AppProvider = ({ children }) => {
       cgpa: 0.0,
       feeStatus: 'Unpaid',
       feePaid: 0,
-      feeTotal: 75000,
+      feeTotal: 65000,
       grades: [],
       avatar: newStudent.avatar || `https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80`
     };
     setStudents((prev) => [created, ...prev]);
     if (!activeStudentId) setActiveStudentId(created.id);
-    addToast(`Added new student: ${created.name}`, 'success');
+    addToast(`Enrolled student: ${created.name} (${created.rollNo})`, 'success');
     addAuditLog(`Enrolled student ${created.name} (${created.rollNo})`);
   };
 
@@ -243,13 +241,13 @@ export const AppProvider = ({ children }) => {
     setStudents((prev) =>
       prev.map((s) => (s.id === id ? { ...s, ...updatedFields } : s))
     );
-    addToast(`Student details updated successfully`, 'success');
+    addToast(`Student record updated`, 'success');
     addAuditLog(`Updated profile for student ID ${id}`);
   };
 
   const deleteStudent = (id) => {
     setStudents((prev) => prev.filter((s) => s.id !== id));
-    addToast(`Student removed from records`, 'warning');
+    addToast(`Student removed from CSIT database`, 'warning');
     addAuditLog(`Deleted student record ${id}`);
   };
 
@@ -267,7 +265,7 @@ export const AppProvider = ({ children }) => {
       )
     );
 
-    const receiptNo = `EV-REC-2026-${Math.floor(100 + Math.random() * 900)}`;
+    const receiptNo = `CSIT-REC-2026-${Math.floor(100 + Math.random() * 900)}`;
     const newTxn = {
       id: `TXN-${Date.now()}`,
       studentId: student.id,
@@ -282,7 +280,7 @@ export const AppProvider = ({ children }) => {
     };
 
     setTransactions((prev) => [newTxn, ...prev]);
-    addToast(`Payment of ₹${amount.toLocaleString()} received for ${student.name}`, 'success');
+    addToast(`Fee payment of ₹${amount.toLocaleString()} recorded for ${student.name}`, 'success');
     addAuditLog(`Processed fee payment of ₹${amount} for ${student.name} (Receipt: ${receiptNo})`);
     return newTxn;
   };
@@ -320,7 +318,7 @@ export const AppProvider = ({ children }) => {
     const created = {
       ...newFac,
       id: `fac-${Date.now()}`,
-      empId: `EMP-${Math.floor(1000 + Math.random() * 9000)}`,
+      empId: `CSIT-${Math.floor(1000 + Math.random() * 9000)}`,
       image: newFac.image || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=250&q=80'
     };
     setFaculty((prev) => [created, ...prev]);
@@ -374,7 +372,7 @@ export const AppProvider = ({ children }) => {
       author: activeRole
     };
     setNotices((prev) => [created, ...prev]);
-    addToast(`Published new notice: ${created.title}`, 'info');
+    addToast(`Published notice: ${created.title}`, 'info');
     addAuditLog(`Published notice: ${created.title}`);
   };
 
@@ -391,7 +389,7 @@ export const AppProvider = ({ children }) => {
       available: newBook.total
     };
     setBooks((prev) => [...prev, created]);
-    addToast(`Book ${created.title} added to library`, 'success');
+    addToast(`Book ${created.title} added to CSIT library`, 'success');
   };
 
   const issueBook = (bookId, studentName) => {
@@ -455,7 +453,6 @@ export const AppProvider = ({ children }) => {
     addExam,
     auditLogs,
     clearAllDemoData,
-    restoreDemoData,
     isCommandPaletteOpen,
     setIsCommandPaletteOpen,
     toasts,
